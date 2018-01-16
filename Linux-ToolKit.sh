@@ -16,7 +16,7 @@ echo -e "\033[0;37m+  |______|_|_| |_|\__,_/_/\_\    |_|\___/ \___/|_| |_|\_\_|\
 echo -e "\033[0;37m+                                                                 +\033[m"
 echo -e "\033[0;34m+           Created By: Mitchell Pemberton (RoSsIsChAmP)          +\033[m"
 echo -e "\033[0;34m+                                                                 +\033[m"
-echo -e "\033[0;34m+                       Version 3.0 (Stable)                      +\033[m"
+echo -e "\033[0;34m+                             Version 3.0                         +\033[m"
 echo -e "\033[0;34m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\033[m"
 
 read -p "Press enter to continue: "
@@ -42,17 +42,18 @@ echo "+    9. RAM Information                     +"
 echo "+   10. Bios Information                    +"
 echo "+   11. All Hardware Information            +"
 echo "+    IPtables Firewall Configuration        +"
-echo "+   12. Flush IPtables Configs              +"
-echo "+   13. Show IPtables Configs               +"
+echo "+   12. Flush IPtables Configuration        +"
+echo "+   13. Show IPtables Configuration         +"
 echo "+   14. Secure IPtables Configuration       +"
 echo "+    System Information                     +"
 echo "+   15. Kernel Version                      +"
 echo "+   16. Hostname                            +"
 echo "+   17. IP Address                          +"
-echo "+   18. Check Enabled Services              +"
-echo "+   19. Check Disabled Services             +"
+echo "+   18. MAC Address                         +"
+echo "+   19. Check Enabled Services              +"
+echo "+   20. Check Disabled Services             +"
 echo "+    Drive Wipe                             +"
-echo "+   20. Full Drive Wipe                     +"
+echo "+   21. Full Drive Wipe                     +"
 echo "+                                           +"
 echo "+++++++++++++++++++++++++++++++++++++++++++++"
 
@@ -326,15 +327,22 @@ if [ "$answer" == "17" ]; then
 
 fi
 
-#Check enabled services
+#Gets the MAC Address of the system
 if [ "$answer" == "18" ]; then
+
+	ifconfig | grep ether
+
+fi
+
+#Check enabled services
+if [ "$answer" == "19" ]; then
 
 	systemctl list-unit-files | grep enabled | less
 
 fi
 
 #Check disabled services
-if [ "$answer" == "19" ]; then
+if [ "$answer" == "20" ]; then
 
 	systemctl list-unit-files | grep disabled | less
 
@@ -343,7 +351,7 @@ fi
 
 
 #Wiping the entire drive
-if [ "$answer" == "20" ]; then	
+if [ "$answer" == "21" ]; then	
 
 	echo "What is the path of the drive you want to wipe? (/dev/****) or run (df -h) to see all drive paths"
 
