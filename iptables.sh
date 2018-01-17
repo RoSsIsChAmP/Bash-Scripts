@@ -10,7 +10,7 @@ sudo iptables -t filter -X
 
 
 
-# Block everything by default
+# Implicit deny
 
 sudo iptables -t filter -P INPUT DROP
 
@@ -26,11 +26,13 @@ sudo iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 sudo iptables -A OUTPUT -m state --state RELATED,ESTABLISHED iptables -t filter -A INPUT -i lo -j ACCEPT
 
+sudo iptables -t filter -A INPUT -i lo -j ACCEPT
+
 sudo iptables -t filter -A OUTPUT -o lo -j ACCEPT
 
 
 
-# ICMP (Ping)
+# ICMP (Ping) if required change DROP to ACCEPT
 
 sudo iptables -t filter -A INPUT -p icmp -j DROP
 
@@ -65,7 +67,7 @@ sudo iptables -t filter -A OUTPUT -p tcp --dport 443 -j ACCEPT
 sudo iptables -t filter -A INPUT -p tcp --dport 443 -j ACCEPT
 
 
-# SSH with brute force prevention
+# SSH with brute force prevention (sub eth0 with interface name)
 
 sudo iptables -t filter -A OUTPUT -p tcp --dport 22 -j ACCEPT
 
