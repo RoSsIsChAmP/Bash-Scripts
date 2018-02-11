@@ -6,3 +6,5 @@ A compilation of Bash scripts created by Mitchell Blystone-Pemberton.
 <p>chmod 777 /Path/to/Linux-ToolKit.sh</p>
 <p>sudo mv /path/to/Linux-ToolKit.sh /usr/local/bin</p>
 <p>The Linux-ToolKit.sh script should now be executeable just by typing the name of the script anywhere on the system.</p>
+
+<p><strong>Note:</strong> password-change.sh must be run using either root or sudo since /etc/passwd is locked to standard users.</p>
