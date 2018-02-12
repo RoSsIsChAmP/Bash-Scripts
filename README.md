@@ -15,4 +15,4 @@ A compilation of Bash scripts created by Mitchell Blystone-Pemberton.
 <p>When running kill-process.sh the user must have sudo privileges or the script will not work properly.</p>
 <p>***************************************************************************************************************************</p>
 <p><strong>Linux-Web-Server-Firewall.sh</strong></p>
-<p>This script is for Linux Iptables made specifically for Linux web servers and can be modified to allow or remove other services.</p>
+<p>This script is for Linux Iptables made specifically for Linux web servers and can be modified to allow or block other ports or services.</p>
