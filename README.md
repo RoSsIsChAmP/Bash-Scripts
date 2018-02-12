@@ -8,3 +8,4 @@ A compilation of Bash scripts created by Mitchell Blystone-Pemberton.
 <p>The Linux-ToolKit.sh script should now be executeable just by typing the name of the script anywhere on the system.</p>
 
 <p><strong>Note:</strong> password-change.sh must be run using either root or sudo since /etc/passwd is locked to standard users.</p>
+<p>When running kill-process.sh the user must have sudo privileges or the script will not work properly.</p>
