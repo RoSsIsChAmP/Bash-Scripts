@@ -330,7 +330,7 @@ fi
 #Gets the MAC Address of the system
 if [ "$answer" == "18" ]; then
 
-	ifconfig | grep ether
+	ip a | grep ether
 
 fi
 
