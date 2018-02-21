@@ -361,7 +361,7 @@ if [ "$answer" == "21" ]; then
 
 	read check2	
 
-	if [ "Scheck2" == "y" ]; then 
+	if [ "$check2" == "y" ]; then 
 	
 		dd if=/dev/zero of=/dev/$letter bs=1M
 	
