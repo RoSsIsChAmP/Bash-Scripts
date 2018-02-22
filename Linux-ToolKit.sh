@@ -432,7 +432,7 @@ if [ "$answer" == "6" ]; then
 	clear
 
 	#Wiping the entire drive
-	if [ "$answer" == "21" ]; then	
+	if [ "$answer" == "1" ]; then	
 
 		echo "What is the path of the drive you want to wipe? (/dev/****) or run (df -h) to see all drive paths"
 
