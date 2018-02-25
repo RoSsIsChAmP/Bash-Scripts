@@ -349,41 +349,41 @@ if [ "$answer" == "4" ]; then
 	#Change a users password
 	if [ "$admin" == "5" ]; then
 
-	#lists current system users
-	cat /etc/passwd | grep /bin/bash
+		#lists current system users
+		cat /etc/passwd | grep /bin/bash
 
-	#asks the user the name of the user they want to change the password for
-	echo "Which user would you like to change the password for?"
+		#asks the user the name of the user they want to change the password for
+		echo "Which user would you like to change the password for?"
 
-	#creates variable user
-	read user
+		#creates variable user
+		read user
 
-	#checks if the user exists
-	getent passwd $user > /dev/null
+		#checks if the user exists
+		getent passwd $user > /dev/null
 
-	if [ $? -eq 0 ]; then
+		if [ $? -eq 0 ]; then
 
-		echo "user $user exists"
+			echo "user $user exists"
 
-	else
+		else
 
-		echo "user $user does not exist"
+			echo "user $user does not exist"
 
-		exit 0	
+			exit 0	
 
-	fi
+		fi
 
-	#asks the user what they want the new password to be
-	echo "What would you like the new password to be?"
+		#asks the user what they want the new password to be
+		echo "What would you like the new password to be?"
 
-	#creates variable password
-	read password
+		#creates variable password
+		read password
 
-	#changes selected users password
-	echo "$user:$password" | chpasswd
+		#changes selected users password
+		echo "$user:$password" | chpasswd
 
-	#tells user the password updated successfully
-	echo "password changed successfully for user $user"
+		#tells user the password updated successfully
+		echo "password changed successfully for user $user"
 
 	fi
 	#adds a user to a group
