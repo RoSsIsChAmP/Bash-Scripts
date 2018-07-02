@@ -520,6 +520,7 @@ if [ "$answer" == "5" ]; then
 				;;
 			*)
 				echo "Error! Unknown option, please try again." 
+				exit 1
 				;;
 		
 		esac
