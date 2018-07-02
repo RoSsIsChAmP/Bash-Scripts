@@ -8,6 +8,13 @@
 #clears the screen
 clear
 
+#Checks if the script is being run as root
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
+
 #Creates the user interface
 echo -e "\033[0;31m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\033[m"
 echo -e "\033[0;31m+   _      _                    _______          _   _  ___ _     +\033[m"
@@ -19,7 +26,7 @@ echo -e "\033[0;37m+  |______|_|_| |_|\__,_/_/\_\    |_|\___/ \___/|_| |_|\_\_|\
 echo -e "\033[0;37m+                                                                 +\033[m"
 echo -e "\033[0;34m+           Created By: Mitchell Pemberton (RoSsIsChAmP)          +\033[m"
 echo -e "\033[0;34m+                                                                 +\033[m"
-echo -e "\033[0;34m+                             Version 3.0                         +\033[m"
+echo -e "\033[0;34m+                             Version 1.1                         +\033[m"
 echo -e "\033[0;34m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\033[m"
 
 read -p "Press enter to continue: "
@@ -437,111 +444,114 @@ if [ "$answer" == "5" ]; then
 	echo "+                                           +"
 	echo "+    1. Flush Configuration                 +"
 	echo "+    2. Show Configuration                  +"
-	echo "+    3. Secure Configuration                +"
+	echo "+    3. Add Rules                        	  +"
+	echo "+    4. Set Policy to DROP                  +"
+	echo "+    5. Set Policy to ALLOW                 +"
+	echo "+    6. Save Configuration                  +"	
 	echo "+                                           +"	
 	echo "+++++++++++++++++++++++++++++++++++++++++++++"
 
 	read -p "Please pick a number: " iptables
 
 	clear
-
+	
+	#Flushes table and chain
 	if [ "$iptables" == "1" ]; then
 	
-		sudo iptables -F
+		iptables -X
+		iptables -F
 
 	fi
 
-
+	#Lists iptables rules
 	if [ "$iptables" == "2" ]; then
 
-		sudo iptables -L
+		iptables -L
 
 	fi
 
+		#Adds rules
 	if [ "$iptables" == "3" ]; then
 
+		#Checks to see if iptables is installed
+		if ! [ -x "$(command -v iptables)" ]; then
+		echo "Error: iptables is not installed." >&2
+		exit 1
+		fi
+		
+		read -p "Would you like to block or allow a port? (block/allow): " port
+		
+		clear 
+		
+		case $port in
+		
+		allow)	
+				echo "What port would you like to allow? ie. 80"
+				read pnumber1
+			
+				clear
+			
+				echo "Is the port UDP or TCP?"
+				read protype1
+			
+				clear
+			
+				echo "Is this an inbound or outbound rule? (INPUT/OUTPUT)"
+				read aa
+				
+				iptables -t filter -A $aa -p $protype1 --dport $pnumber1 -j ACCEPT
+				
+				;;
+		block)
+				echo "What port would you like to block? ie. 80"
+				read pnumber2
+			
+				clear
+			
+				echo "Is the port UDP or TCP?"
+				read protype2
+			
+				clear
+			
+				echo "Is this an inbound or outbound rule? (INPUT/OUTPUT)"
+				read bb
+				
+				iptables -t filter -A $bb -p $protype2 --dport $pnumber2 -j DROP		
+				;;
+			*)
+				echo "Error! Unknown option, please try again." 
+				;;
+		
+		esac
+		
 
-		# Empty all rules
-
-		sudo iptables -t filter -F
-
-		sudo iptables -t filter -X
-
-
-
-		# Implicit deny
+	fi
+	
+	#Sets policy to drop
+	if [ "$iptables" == "4" ]; then
 
 		sudo iptables -t filter -P INPUT DROP
 
 		sudo iptables -t filter -P FORWARD DROP
 
 		sudo iptables -t filter -P OUTPUT DROP
+	fi
+	
+	#Sets policy to allow
+	if [ "$iptables" == "5" ]; then
 
+		sudo iptables -t filter -P INPUT ACCEPT
 
+		sudo iptables -t filter -P FORWARD ACCEPT
 
-		# Authorize already established connections
+		sudo iptables -t filter -P OUTPUT ACCEPT
 
-		sudo iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+	fi
+	
+	#Saves current configuration
+	if [ "$iptables" == "6" ]; then
 
-		sudo iptables -A OUTPUT -m state --state RELATED,ESTABLISHED iptables -t filter -A INPUT -i lo -j ACCEPT
-
-		sudo iptables -t filter -A INPUT -i lo -j ACCEPT
-
-		sudo iptables -t filter -A OUTPUT -o lo -j ACCEPT
-
-
-
-		# ICMP (Ping) if required change DROP to ACCEPT
-
-		sudo iptables -t filter -A INPUT -p icmp -j DROP
-
-		sudo iptables -t filter -A OUTPUT -p icmp -j ACCEPT
-
-
-
-		# DNS
-
-		sudo iptables -t filter -A OUTPUT -p tcp --dport 53 -j ACCEPT
-
-		sudo iptables -t filter -A OUTPUT -p udp --dport 53 -j ACCEPT
-
-		sudo iptables -t filter -A INPUT -p tcp --dport 53 -j DROP
-
-		sudo iptables -t filter -A INPUT -p udp --dport 53 -j DROP
-
-
-
-		# HTTP
-
-		sudo iptables -t filter -A OUTPUT -p tcp --dport 80 -j ACCEPT
-
-		sudo iptables -t filter -A INPUT -p tcp --dport 80 -j DROP
-
-
-
-		# HTTPS
-
-		sudo iptables -t filter -A OUTPUT -p tcp --dport 443 -j ACCEPT
-
-		sudo iptables -t filter -A INPUT -p tcp --dport 443 -j DROP
-
-
-		# SSH with brute force prevention (sub eth0 with interface name)
-
-		sudo iptables -t filter -A OUTPUT -p tcp --dport 22 -j ACCEPT
-
-		sudo iptables -t filter -A INPUT -p tcp --dport 22 -j DROP 
-
-
-
-		# Drop Null packets
- 
-		sudo iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
-
-
-		# Block XMAS Scan
-
-		sudo iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+		iptables-save
 
 	fi
 
