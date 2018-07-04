@@ -43,7 +43,7 @@ echo "+    1. Hashing                             +"
 echo "+    2. Parsing                             +"
 echo "+    3. Hardware Information                +"
 echo "+    4. System Administration               +"
-echo "+    5. IPtables Configuration              +"
+echo "+    5. Firewall Configuration              +"
 echo "+    6. System Information                  +"
 echo "+    7. Drive Wipe                          +"
 echo "+                                           +"
@@ -440,7 +440,7 @@ if [ "$answer" == "5" ]; then
 
 	#creates IPtables menu
 	echo "+++++++++++++++++++++++++++++++++++++++++++++"
-	echo "+                IPtables Menu              +"
+	echo "+                Firewall Menu              +"
 	echo "+                                           +"
 	echo "+    1. Flush Configuration                 +"
 	echo "+    2. Show Configuration                  +"
