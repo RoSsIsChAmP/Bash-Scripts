@@ -24,7 +24,7 @@ sudo iptables -t filter -P OUTPUT DROP
 
 sudo iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 
-sudo iptables -A OUTPUT -m state --state RELATED,ESTABLISHED iptables -t filter -A INPUT -i lo -j ACCEPT
+sudo iptables -A OUTPUT -m state --state RELATED,ESTABLISHED 
 
 sudo iptables -t filter -A INPUT -i lo -j ACCEPT
 
